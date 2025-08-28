@@ -1,7 +1,3 @@
-data "azurerm_resource_group" "example" {
-  name = "mate-terraform-task-3"
-}
-
 data "azurerm_resource_group" "main" {
   name = var.resource_group_name
 }
