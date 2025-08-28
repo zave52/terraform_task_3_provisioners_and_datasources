@@ -47,7 +47,7 @@ resource "azurerm_network_security_rule" "http" {
   network_security_group_name = azurerm_network_security_group.example.name
 }
 
-resource "azurerm_network_interface_security_group_association" "example" {
-  network_interface_id      = azurerm_network_interface.main.id
+resource "azurerm_network_interface_security_group_association" "main" {
+  network_interface_id      = data.azurerm_network_interface.main.id
   network_security_group_id = azurerm_network_security_group.example.id
 }

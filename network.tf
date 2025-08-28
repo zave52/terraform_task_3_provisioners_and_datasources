@@ -1,34 +1,24 @@
-resource "azurerm_virtual_network" "main" {
-  name                = "${var.prefix}-network"
-  address_space       = ["10.0.0.0/16"]
-  location            = data.azurerm_resource_group.example.location
-  resource_group_name = data.azurerm_resource_group.example.name
+data "azurerm_resource_group" "main" {
+  name = var.resource_group_name
 }
 
-resource "azurerm_subnet" "internal" {
-  name                 = "internal"
-  resource_group_name  = data.azurerm_resource_group.example.name
-  virtual_network_name = azurerm_virtual_network.main.name
-  address_prefixes     = ["10.0.2.0/24"]
+data "azurerm_virtual_network" "main" {
+  name                = var.vnet_name
+  resource_group_name = data.azurerm_resource_group.main.name
 }
 
-resource "azurerm_network_interface" "main" {
-  name                = "${var.prefix}-nic"
-  location            = data.azurerm_resource_group.example.location
-  resource_group_name = data.azurerm_resource_group.example.name
-
-  ip_configuration {
-    name                          = "testconfiguration1"
-    subnet_id                     = azurerm_subnet.internal.id
-    private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.main.id
-  }
+data "azurerm_subnet" "main" {
+  name                 = var.subnet_name
+  virtual_network_name = data.azurerm_virtual_network.main.name
+  resource_group_name  = data.azurerm_resource_group.main.name
 }
 
-resource "azurerm_public_ip" "main" {
-  allocation_method   = "Static"
-  location            = data.azurerm_resource_group.example.location
-  name                = "${var.prefix}-publi-ip"
-  resource_group_name = data.azurerm_resource_group.example.name
-  sku                 = "Standard"
+data "azurerm_network_interface" "main" {
+  name                = var.nic_name
+  resource_group_name = data.azurerm_resource_group.main.name
+}
+
+data "azurerm_public_ip" "main" {
+  name                = var.public_ip_name
+  resource_group_name = data.azurerm_resource_group.main.name
 }
