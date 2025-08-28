@@ -3,7 +3,7 @@ variable "prefix" {
 }
 
 variable "resource_group_name" {
-  default = "mate-tf-task-3"
+  default = "mate-terraform-task-3"
 }
 
 variable "vnet_name" {
