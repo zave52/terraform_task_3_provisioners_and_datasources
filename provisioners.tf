@@ -1,10 +1,3 @@
-data "azurerm_virtual_machine" "main" {
-  name                = var.vm_name
-  resource_group_name = data.azurerm_resource_group.main.name
-}
-
-
-
 resource "null_resource" "vm_provisioner" {
   triggers = {
     vm_id = data.azurerm_virtual_machine.main.id
