@@ -26,9 +26,16 @@ resource "null_resource" "vm_provisioner" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo apt update",
-      "sudo apt install -y nginx",
-      "sudo cp /tmp/index.html /var/www/html/index.html",
+      "export DEBIAN_FRONTEND=noninteractive",
+      "sudo apt-get update -y",
+      "sudo apt-get install -y software-properties-common",
+      "sudo add-apt-repository universe -y",
+      "sudo apt-get update -y",
+      "sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y",
+      "sudo DEBIAN_FRONTEND=noninteractive apt-get install nginx -y",
+      "sudo mv /tmp/index.html /var/www/html/index.html",
+      "sudo chown www-data:www-data /var/www/html/index.html",
+      "sudo chmod 644 /var/www/html/index.html",
       "sudo systemctl enable nginx",
       "sudo systemctl start nginx"
     ]
